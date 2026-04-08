@@ -11,7 +11,7 @@ reflex run --env prod &
 # Wait for both ports to be ready before starting nginx
 echo "Waiting for Reflex services to start..."
 for i in $(seq 1 60); do
-    if curl -sf http://127.0.0.1:8000/ping > /dev/null 2>&1 && \
+    if curl -sf http://127.0.0.1:8000/ > /dev/null 2>&1 && \
        curl -sf http://127.0.0.1:3000/ > /dev/null 2>&1; then
         echo "Reflex services are up."
         break
