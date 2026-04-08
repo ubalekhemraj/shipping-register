@@ -1,0 +1,10 @@
+[deploy]
+startCommand = "/app/start.sh"
+healthcheckPath = "/ping"
+healthcheckTimeout = 120
+
+[[services]]
+name = "shipping-register"
+
+[services.variables]
+PORT = "80"

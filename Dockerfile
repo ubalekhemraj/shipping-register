@@ -1,12 +1,13 @@
 FROM python:3.13-slim
 
-# Install system dependencies required by Reflex and PostgreSQL
+# Install system dependencies required by Reflex, PostgreSQL, and nginx
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     git \
     build-essential \
     libpq-dev \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -18,8 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Expose ports
-EXPOSE 3000 8000
+# Expose single public port (nginx reverse proxy)
+EXPOSE 80
 
-# Run the app
-CMD ["sh", "-c", "reflex db init && reflex db migrate && reflex run --env prod"]
+# Run startup script: db init/migrate + reflex + nginx
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]
