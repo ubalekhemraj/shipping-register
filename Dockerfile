@@ -22,4 +22,4 @@ COPY . .
 EXPOSE 3000 8000
 
 # Run the app
-CMD ["sh", "-c", "reflex db init --skip-prompts && reflex run --env prod"]
+CMD ["sh", "-c", "reflex db init && reflex run --env prod"]
