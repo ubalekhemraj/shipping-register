@@ -7,21 +7,18 @@ is_prod = os.environ.get("RAILWAY_ENVIRONMENT_NAME") == "production"
 
 # Database URL: PostgreSQL on Railway, SQLite locally
 if is_prod:
-    # Railway provides DATABASE_URL in PostgreSQL format
-    db_url = os.environ.get("DATABASE_URL", "postgresql://localhost/shipping_register")
-    # Convert postgres:// to postgresql:// if needed (for SQLAlchemy)
+    db_url = os.environ.get("DATABASE_URL", "postgresql://postgres:gboZqzfSIzXOHrCnZoUKsNsComFobsnr@postgres.railway.internal:5432/railway")
     if db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
 else:
     db_url = "sqlite:///shipping_register.db"
 
 # In production on Railway, construct the backend API URL from the public domain.
-# RAILWAY_PUBLIC_DOMAIN is automatically set by Railway for the service.
 if is_prod:
     _public_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "")
-    api_url = f"https://{_public_domain}/api" if _public_domain else "http://localhost:8000/api"
+    api_url = f"https://{_public_domain}" if _public_domain else "http://localhost:8000"
 else:
-    api_url = "http://localhost:8000/api"
+    api_url = "http://localhost:8000"
 
 config = rx.Config(
     app_name="shipping_register",
